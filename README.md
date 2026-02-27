@@ -2,7 +2,9 @@
 End-to-end enterprise authentication monitoring lab using Windows Event Logs, Sysmon, and Splunk Enterprise to detect brute-force attempts, successful logins, PowerShell execution, network activity, and simulated lateral movement mapped to MITRE ATT&CK.
 
 
-Objective
+
+
+#Objective#
 
 This lab demonstrates a real-world SOC detection workflow:
 
