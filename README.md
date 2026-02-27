@@ -4,26 +4,199 @@ End-to-end enterprise authentication monitoring lab using Windows Event Logs, Sy
 
 
 
-#Objective#
+## Objective
 
-This lab demonstrates a real-world SOC detection workflow:
 
-Validate log ingestion
+This project demonstrates a real-world SOC detection workflow:
 
-Detect authentication failures (Event ID 4625)
+Validate log ingestion pipeline
 
-Detect successful logins (Event ID 4624)
+Detect brute-force authentication attempts (Event ID 4625)
 
-Filter noise from service accounts
+Detect successful authentication events (Event ID 4624)
+
+Filter service-account noise
 
 Parse Sysmon XML telemetry
 
-Detect PowerShell execution (Event ID 1)
+Detect PowerShell execution (Sysmon Event ID 1)
 
-Detect network connections (Event ID 3)
+Detect network connections (Sysmon Event ID 3)
 
 Simulate lateral movement
 
+Build threshold-based alert logic
+
 Map detections to MITRE ATT&CK
 
-Build threshold-based alert logic
+
+## Stimulated Multi-Site SOC Architecture
+
+This lab simulates an enterprise multi-site environment separating endpoint telemetry from SIEM infrastructure.
+
+```
+Site B (Endpoint – VirtualBox)
+--------------------------------
+Windows 10
++ Sysmon
++ Windows Security Logs
++ Splunk Universal Forwarder
+        │
+        │  (TCP 9997 – Forwarding Port)
+        ▼
+Site A (SIEM – VMware)
+--------------------------------
+Windows 11
++ Splunk Enterprise (Indexer + Search Head)
++ Detection Engineering
++ Alerting & Investigation
+```
+
+
+## Data Flow Explanation
+
+Windows 10 (Site B) generates:
+
+Security Event Logs
+
+Sysmon telemetry
+
+Splunk Universal Forwarder sends logs over TCP 9997
+
+Splunk Enterprise (Site A) receives, indexes, and analyzes logs
+
+SOC detections are built using SPL queries
+
+
+## Detection Walkthrough
+
+1️⃣ Failed Logon Detection (Brute Force)
+
+Query: spl/failed_logon_4625.spl
+
+Detects repeated failed login attempts.
+
+MITRE: T1110 – Brute Force
+
+
+2️⃣ Successful Login Detection
+
+Query: spl/successful_logon_4624.spl
+
+Validates successful authentication events.
+
+MITRE: T1078 – Valid Accounts
+
+
+3️⃣ Authentication Timeline Reconstruction
+
+Query: spl/authentication_timeline.spl
+
+Reconstructs authentication event sequence to identify attack progression.
+
+
+4️⃣ Sysmon Telemetry Validation
+
+Query: spl/sysmon_eventid_breakdown.spl
+
+Validates enriched endpoint telemetry including:
+
+Process creation
+
+Network connections
+
+File creation
+
+Registry modifications
+
+
+5️⃣ PowerShell Execution Detection
+
+Query: spl/powershell_execution_detection.spl
+
+Detects PowerShell process execution activity.
+
+MITRE: T1059.001 – PowerShell
+
+
+6️⃣ Network Connection Detection
+
+Query: spl/network_connection_detection.spl
+
+Detects outbound network activity from the endpoint.
+
+MITRE: T1049 – System Network Connections Discovery
+
+
+7️⃣ Lateral Movement Detection
+
+Query: spl/lateral_movement_detection.spl
+
+Detects remote logon activity (Logon Type 3 and 10).
+
+MITRE: T1021 – Remote Services
+
+
+8️⃣ Brute Force Alert Logic
+
+Query: spl/brute_force_alert_threshold.spl
+
+Triggers alert if failed login attempts exceed defined threshold within 5 minutes.
+
+
+## MITRE ATT&CK Mapping
+
+| Behavior             | Technique |
+| -------------------- | --------- |
+| Brute Force          | T1110     |
+| Valid Account Abuse  | T1078     |
+| PowerShell Execution | T1059.001 |
+| Network Discovery    | T1049     |
+| Remote Services      | T1021     |
+
+
+## Skills Demonstrated
+
+Splunk SPL development
+
+Windows authentication analysis
+
+Sysmon XML parsing using spath
+
+Detection engineering
+
+Multi-site log forwarding configuration
+
+Threshold-based alert creation
+
+MITRE ATT&CK mapping
+
+SOC investigative workflow
+
+
+## Tools Used
+
+Splunk Enterprise (Windows 11 – VMware)
+
+Splunk Universal Forwarder (Windows 10 – VirtualBox)
+
+Sysmon
+
+Windows Event Logging
+
+MITRE ATT&CK Framework
+
+
+## Project Outcome
+
+This lab demonstrates the ability to:
+
+Build and configure a multi-site SOC architecture
+
+Ingest and parse endpoint telemetry
+
+Detect authentication-based attack techniques
+
+Engineer MITRE-aligned detections
+
+Structure detection logic professionally
