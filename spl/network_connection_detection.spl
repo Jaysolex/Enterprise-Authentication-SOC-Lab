@@ -1,0 +1,3 @@
+index=main sourcetype="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational"
+| spath path=Event.System.EventID output=EventID
+| search EventID=3
