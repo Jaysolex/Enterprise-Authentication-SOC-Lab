@@ -1,0 +1,4 @@
+index=main sourcetype="WinEventLog:Security" EventCode=4624
+| search Logon_Type=3 OR Logon_Type=10
+| table _time Account_Name Source_Network_Address Logon_Type host
+| sort - _time
