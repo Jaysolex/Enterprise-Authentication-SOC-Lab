@@ -30,7 +30,7 @@ Build threshold-based alert logic
 Map detections to MITRE ATT&CK
 
 
-## Stimulated Multi-Site SOC Architecture
+## Simulated Multi-Site SOC Architecture
 
 This lab simulates an enterprise multi-site environment separating endpoint telemetry from SIEM infrastructure.
 
