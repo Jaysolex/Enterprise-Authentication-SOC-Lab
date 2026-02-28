@@ -177,7 +177,7 @@ Authentication failures logged
 
 
 ## Detection Query – Failed Logons
-File: spl/failed_logon_4625.spl
+File: 09_spl/failed_logon_4625.spl
 
 ```
 index=main sourcetype="WinEventLog:Security" EventCode=4625
@@ -198,6 +198,39 @@ Targeted account
 
 ## SMB MITRE ATT&CK Mapping
 
+| Behavior        | Technique           |
+| --------------- | ------------------- |
+| SMB Brute Force | T1110 – Brute Force |
+
+Tactic: Credential Access
+
+
+## Threshold-Based Brute Force Alert
+
+File: spl/brute_force_alert_threshold.spl
+
+```
+index=main sourcetype="WinEventLog:Security" EventCode=4625
+| bucket _time span=5m
+| stats count by _time, Account_Name, Source_Network_Address, Logon_Type
+| where count >= 5 AND Logon_Type=3
+| sort -count
+```
+
+Detection Logic
+
+EventCode 4625 → Failed login
+
+Logon_Type 3 → Network logon (SMB)
+
+Grouped in 5-minute window
+
+Alert when ≥5 failures occur
+
+Screenshot #2
+![bruteforce threshod](screenshots/10-bruteforce-threshold-alert.png)
+
+## MITRE ATT&CK Mapping
 | Behavior        | Technique           |
 | --------------- | ------------------- |
 | SMB Brute Force | T1110 – Brute Force |
