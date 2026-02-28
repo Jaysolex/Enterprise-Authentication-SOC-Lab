@@ -196,14 +196,6 @@ Targeted account
 📸 Screenshot #1
 ![failed logon](screenshots/09-failed-logon-detection.png)
 
-## SMB MITRE ATT&CK Mapping
-
-| Behavior        | Technique           |
-| --------------- | ------------------- |
-| SMB Brute Force | T1110 – Brute Force |
-
-Tactic: Credential Access
-
 
 ## Threshold-Based Brute Force Alert
 
