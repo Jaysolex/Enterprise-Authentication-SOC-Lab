@@ -159,11 +159,11 @@ Triggers alert if failed login attempts exceed defined threshold within 5 minute
 ## SMB Brute Force Detection (Credential Access – T1110)
 Attack Simulation (Kali Linux)
 
-The attack was simulated from Kali Linux (10.2.0.991) targeting Windows 10 (10.2.0.991) over SMB (TCP 445).
+The attack was simulated from Kali Linux (10.2.0.xxx) targeting Windows 10 (10.2.0.xxx) over SMB (TCP 445).
 
 Command Used (Successful)
 ```
-for i in {1..5}; do smbclient -L //10.2.0.991 -U HACKE%WrongPass1!; done
+for i in {1..5}; do smbclient -L //10.2.0.xxx -U HACKE%WrongPass1!; done
 ```
 This generated multiple failed SMB authentication attempts.
 
