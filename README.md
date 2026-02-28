@@ -24,23 +24,7 @@ Map detections to MITRE ATT&CK
 
 This lab simulates an enterprise multi-site environment separating endpoint telemetry from SIEM infrastructure.
 
-```
-Site B (Endpoint – VirtualBox)
---------------------------------
-Windows 10
-+ Sysmon
-+ Windows Security Logs
-+ Splunk Universal Forwarder
-        │
-        │  (TCP 9997 – Forwarding Port)
-        ▼
-Site A (SIEM – VMware)
---------------------------------
-Windows 11
-+ Splunk Enterprise (Indexer + Search Head)
-+ Detection Engineering
-+ Alerting & Investigation
-```
+![SOC_Architecture](architecture/multi-site-splunk-architecture.png)
 
 ---
 
