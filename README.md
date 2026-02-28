@@ -155,6 +155,49 @@ Triggers alert if failed login attempts exceed defined threshold within 5 minute
 | Remote Services      | T1021     |
 
 
+
+## SMB Brute Force Detection (Credential Access – T1110)
+Attack Simulation (Kali Linux)
+
+The attack was simulated from Kali Linux (10.0.0.44) targeting Windows 10 (10.0.0.231) over SMB (TCP 445).
+
+Command Used (Successful)
+```
+for i in {1..5}; do smbclient -L //10.0.0.231 -U HACKE%WrongPass1!; done
+```
+This generated multiple failed SMB authentication attempts.
+
+Confirmed:
+
+Target reachable
+
+SMB port open
+
+Authentication failures logged
+
+
+## Detection Query – Failed Logons
+File: spl/failed_logon_4625.spl
+
+```
+index=main sourcetype="WinEventLog:Security" EventCode=4625
+| stats count by Account_Name, Source_Network_Address, Logon_Type
+| sort -count
+```
+What It Shows
+
+Failed authentication attempts
+
+Attacker IP address
+
+Logon type
+
+Targeted account
+📸 Screenshot #1
+09-failed-logon-detection.png
+
+
+
 ## Skills Demonstrated
 
 Splunk SPL development
