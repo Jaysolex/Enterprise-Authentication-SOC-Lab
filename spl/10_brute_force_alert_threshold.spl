@@ -1,0 +1,5 @@
+index=main sourcetype="WinEventLog:Security" EventCode=4625
+| bucket _time span=5m
+| stats count by _time, Account_Name, Source_Network_Address, Logon_Type
+| where count >= 5 AND Logon_Type=3
+| sort -count
