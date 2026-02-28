@@ -194,7 +194,7 @@ Logon type
 
 Targeted account
 📸 Screenshot #1
-09-failed-logon-detection.png
+![failed logon](screenshots/09-failed-logon-detection.png)
 
 ## SMB MITRE ATT&CK Mapping
 
